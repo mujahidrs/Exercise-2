@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+            /*.buttonNumber:hover{*/
+                /*background-color: rgba(198, 191, 195, 0.67);*/
+            /*}*/
+            .card{
+                width: 300px;
+                margin-top: 50px;
+                display: inline-block;
+                background-color: rgba(39, 39, 90, 0.5);
+                padding: 10px;
+            }
+            .card-body{
+                background: rgba(173, 216, 230, 0.85);
+                border-radius: 5px;
+            }
+            .col{
+                padding: 10px;
+            }
+            .container{
+                text-align: center;
+            }
+            #cache{
+                float: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="card">
+                <div class="card-title">
+                    <h4>Kalkulator Mujahid</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <label for="result" id="cache"></label>
+                            <input type="text" id="result" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="button" value="/" onclick="operate('/')" class="form-control buttonNumber btn-success"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="*" onclick="operate('*')" class="form-control buttonNumber btn-success"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="-" onclick="operate('-')" class="form-control buttonNumber btn-success"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="+" onclick="operate('+')" class="form-control buttonNumber btn-success"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="button" value="7" onclick="input('7')" class="form-control buttonNumber btn-light"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="8" onclick="input('8')" class="form-control buttonNumber btn-light"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="9" onclick="input('9')" class="form-control buttonNumber btn-light"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="<=" onclick="backspace()" class="form-control buttonNumber btn-info"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="button" value="4" onclick="input('4')" class="form-control buttonNumber btn-light"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="5" onclick="input('5')" class="form-control buttonNumber btn-light"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="6" onclick="input('6')" class="form-control buttonNumber btn-light"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="CE" onclick="ce()" class="form-control buttonNumber btn-warning"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col" id="1">
+                            <input type="button" value="1" onclick="input('1')" class="form-control buttonNumber btn-light"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="2" onclick="input('2')" class="form-control buttonNumber btn-light"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="3" onclick="input('3')" class="form-control buttonNumber btn-light"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="C" onclick="hapus()" class="form-control buttonNumber btn-danger"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="button" value="+-" onclick="negatif()" class="form-control buttonNumber btn-secondary"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="0" onclick="nol('0')" class="form-control buttonNumber btn-light"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="." onclick="titik('.')" class="form-control buttonNumber btn-secondary"/>
+                        </div>
+                        <div class="col">
+                            <input type="button" value="=" onclick="hitung()" class="form-control buttonNumber btn-primary"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById("result").value = 0;
+            document.getElementById("cache").innerText = 0;
+            var cache = '';
+            var result = '';
+            function input(content) {
+                if(document.getElementById("cache").innerText == '0'){
+                    cache = '';
+                }
+                result += content;
+                cache += content;
+                document.getElementById("result").value = result;
+                document.getElementById("cache").innerText = cache;
+            }
+            function nol(content) {
+                if(result != '' && result != 0){
+                    result += content;
+                    cache += content;
+                    document.getElementById("result").value = result;
+                    document.getElementById("cache").innerText = cache;
+                }
+                else{
+                    result = content;
+                    document.getElementById("result").value = result;
+                    result = '';
+                }
+            }
+            function operate(content) {
+                if(cache[cache.length - 1] != '/' && cache[cache.length - 1] != '*' && cache[cache.length - 1] != '-' && cache[cache.length - 1] != '+'){
+                    result = '';
+                    cache += content;
+                    document.getElementById("cache").innerText = cache;
+                }
+            }
+            function hitung() {
+                if(result != '' && cache != ''){
+                    result = eval(cache);
+                    document.getElementById("result").value = result;
+                    cache = result;
+                    result = '';
+                }
+            }
+            function backspace() {
+                console.log(cache);
+                console.log(result);
+                cache = cache.substring(0, cache.length-1);
+                result = result.substring(0, result.length-1);
+                document.getElementById("result").value = result;
+                document.getElementById("cache").innerText = cache;
+                if(result == '' && cache == ''){
+                    result = '0';
+                    cache = '0';
+                    document.getElementById("result").value = result;
+                    document.getElementById("cache").innerText = cache;
+                    cache = '';
+                    result = '';
+                }
+                if(result == ''){
+                    result = cache;
+                }
+            }
+            function hapus() {
+                document.getElementById("cache").innerText = '0';
+                document.getElementById("result").value = '0';
+                result = '';
+                cache = '';
+            }
+            function ce() {
+                document.getElementById("result").value = '';
+                console.log(cache);
+                result = '';
+                document.getElementById("result").value = '0';
+                document.getElementById("cache").innerText = cache;
+                console.log(cache);
+            }
+            function titik(content) {
+                if(result == '' && cache == ''){
+                    result += "0" + content;
+                    cache += "0" + content;
+                    document.getElementById("result").value = result;
+                    document.getElementById("cache").innerText = cache;
+                }
+                else{
+                    result = '';
+                    result += content;
+                    cache += content;
+                    document.getElementById("result").value = result;
+                    document.getElementById("cache").innerText = cache;
+                }
+            }
+            function negatif() {
+                if(result == '' && cache == ''){
+                    result = '-';
+                    cache = '-';
+                    document.getElementById("result").value = result;
+                    document.getElementById("cache").innerText = cache;
+                }
+                else{
+                    result = result * (-1);
+                    cache = cache * (-1);
+                    document.getElementById("result").value = result;
+                    document.getElementById("cache").innerText = cache;
+                }
+            }
+            document.onkeydown = function (event) {
+                switch(event.key){
+                    case '1':
+                        input('1');
+                        break;
+                    case '2':
+                        input('2');
+                        break;
+                    case '3':
+                        input('3');
+                        break;
+                    case '4':
+                        input('4');
+                        break;
+                    case '5':
+                        input('5');
+                        break;
+                    case '6':
+                        input('6');
+                        break;
+                    case '7':
+                        input('7');
+                        break;
+                    case '8':
+                        input('8');
+                        break;
+                    case '9':
+                        input('9');
+                        break;
+                    case '0':
+                        nol('0');
+                        break;
+                    case '.':
+                        input('.');
+                        break;
+                    case '+':
+                        operate('+');
+                        break;
+                    case '-':
+                        operate('-');
+                        break;
+                    case '*':
+                        operate('*');
+                        break;
+                    case '/':
+                        operate('/');
+                        break;
+                    case 'Enter':
+                        hitung();
+                        break;
+                    case 'Backspace':
+                        backspace();
+                        break;
+                    case 'Delete':
+                        hapus();
+                        break;
+                }
+            }
+        </script>
+    </body>
+</html>
